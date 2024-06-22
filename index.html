@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Average Calculator</title>
+    <script>
+      async function fetchNumbers(type) {
+        try {
+          const response = await fetch(`/numbers/${type}`);
+          const data = await response.json();
+          document.getElementById("prevState").textContent = JSON.stringify(
+            data.windowPrevState,
+            null,
+            2
+          );
+          document.getElementById("currState").textContent = JSON.stringify(
+            data.windowCurrState,
+            null,
+            2
+          );
+          document.getElementById("newNumbers").textContent = JSON.stringify(
+            data.numbers,
+            null,
+            2
+          );
+          document.getElementById("average").textContent = data.avg;
+        } catch (error) {
+          console.error("Error fetching numbers:", error);
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <h1>Average Calculator</h1>
+    <div>
+      <label for="numberType">Select Number Type:</label>
+      <select id="numberType">
+        <option value="p">Prime</option>
+        <option value="f">Fibonacci</option>
+        <option value="e">Even</option>
+        <option value="r">Random</option>
+      </select>
+      <button
+        onclick="fetchNumbers(document.getElementById('numberType').value)"
+      >
+        Fetch Numbers
+      </button>
+    </div>
+    <h2>Window Previous State</h2>
+    <pre id="prevState">[]</pre>
+    <h2>Window Current State</h2>
+    <pre id="currState">[]</pre>
+    <h2>New Numbers</h2>
+    <pre id="newNumbers">[]</pre>
+    <h2>Average</h2>
+    <pre id="average">0</pre>
+  </body>
+</html>
